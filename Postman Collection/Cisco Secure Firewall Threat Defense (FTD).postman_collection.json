@@ -1,0 +1,556 @@
+{
+	"info": {
+		"_postman_id": "224c1f76-e29e-4ce8-ba52-8a0f522894d6",
+		"name": "Cisco Secure Firewall Threat Defense (FTD)",
+		"description": "The main goal of this collection to help the developer understand the various API capabilities of Cisco Next Gen Firewall using Firepower Device Manager APIs (This is local manager available on device)",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "2482746"
+	},
+	"item": [
+		{
+			"name": "get token",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"var data = pm.response.json()",
+							"pm.environment.set(\"access_token\", data.access_token);",
+							""
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"auth": {
+					"type": "noauth"
+				},
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json"
+					},
+					{
+						"key": "Accept",
+						"value": "application/json"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n   \"grant_type\": \"password\",\r\n   \"username\": \"admin\",\r\n   \"password\": \"C1sco12345\"\r\n }"
+				},
+				"url": {
+					"raw": "{{base_url}}/api/fdm/latest/fdm/token?Content-Type=application/json&Accept=application/json",
+					"host": [
+						"{{base_url}}"
+					],
+					"path": [
+						"api",
+						"fdm",
+						"latest",
+						"fdm",
+						"token"
+					],
+					"query": [
+						{
+							"key": "Content-Type",
+							"value": "application/json"
+						},
+						{
+							"key": "Accept",
+							"value": "application/json"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "get user ",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": ""
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "update user password to C!sco123",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Status code is 200\", function () {",
+							"    pm.response.to.have.status(200);",
+							"    pm.environment.set(\"current_password\", \"C!sco123\");",
+							"});",
+							""
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "{{access_token}}",
+							"type": "string"
+						}
+					]
+				},
+				"method": "PUT",
+				"header": [
+					{
+						"key": "Content-Type",
+						"name": "Content-Type",
+						"value": "application/json",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n  \"version\" : \"{{user_version}}\",\r\n  \"name\": \"admin\",\r\n  \"password\": \"{{current_password}}\",\r\n  \"newPassword\": \"C!sco123\",\r\n  \"userPreferences\": {\r\n    \"preferredTimeZone\": \"(UTC+00:00) UTC\",\r\n    \"colorTheme\": \"NORMAL_CISCO_IDENTITY\",\r\n    \"type\": \"userpreferences\"\r\n  },\r\n  \"userRole\": \"ROLE_ADMIN\",\r\n  \"identitySourceId\": \"{{user_identitySourceId}}\",\r\n  \"userServiceTypes\": [\r\n    \"MGMT\"\r\n  ],\r\n  \"id\": \"{{user_id}}\",\r\n  \"type\": \"user\"\r\n}"
+				},
+				"url": {
+					"raw": "{{base_url}}/object/users/{{user_id}}",
+					"host": [
+						"{{base_url}}"
+					],
+					"path": [
+						"object",
+						"users",
+						"{{user_id}}"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "update user password to Adm!n123",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Status code is 200\", function () {",
+							"    pm.response.to.have.status(200);",
+							"    pm.environment.set(\"current_password\", \"Adm!n123\");",
+							"    ",
+							"});",
+							""
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "{{access_token}}",
+							"type": "string"
+						}
+					]
+				},
+				"method": "PUT",
+				"header": [
+					{
+						"key": "Content-Type",
+						"name": "Content-Type",
+						"value": "application/json",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n  \"version\" : \"{{user_version}}\",\r\n  \"name\": \"admin\",\r\n  \"password\": \"{{current_password}}\",\r\n  \"newPassword\": \"Adm!n123\",\r\n  \"userPreferences\": {\r\n    \"preferredTimeZone\": \"(UTC+00:00) UTC\",\r\n    \"colorTheme\": \"NORMAL_CISCO_IDENTITY\",\r\n    \"type\": \"userpreferences\"\r\n  },\r\n  \"userRole\": \"ROLE_ADMIN\",\r\n  \"identitySourceId\": \"{{user_identitySourceId}}\",\r\n  \"userServiceTypes\": [\r\n    \"MGMT\"\r\n  ],\r\n  \"id\": \"{{user_id}}\",\r\n  \"type\": \"user\"\r\n}"
+				},
+				"url": {
+					"raw": "{{base_url}}/object/users/{{user_id}}",
+					"host": [
+						"{{base_url}}"
+					],
+					"path": [
+						"object",
+						"users",
+						"{{user_id}}"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "get access policies",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"var data = pm.response.json()",
+							"pm.environment.set(\"access_policy_id\", data.items[0].id);"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "{{access_token}}",
+							"type": "string"
+						}
+					]
+				},
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{base_url}}/policy/accesspolicies",
+					"host": [
+						"{{base_url}}"
+					],
+					"path": [
+						"policy",
+						"accesspolicies"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "get access rules",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "eyJhbGciOiJIUzI1NiJ9.eyJpYXQiOjE1NDEwOTE2MjksInN1YiI6ImFkbWluIiwianRpIjoiYTMzMjE4NzYtZGRmNy0xMWU4LWFiZTQtZTUyMWIwZTcyZTFiIiwibmJmIjoxNTQxMDkxNjI5LCJleHAiOjE1NDEwOTM0MjksInJlZnJlc2hUb2tlbkV4cGlyZXNBdCI6MTU0MTA5NDAyOTk0MywidG9rZW5UeXBlIjoiSldUX0FjY2VzcyIsIm9yaWdpbiI6InBhc3N3b3JkIn0.O5fWFrGoKhVokmBfUrLfULliUZtzUoC2YottwOSBGYU",
+							"type": "string"
+						}
+					]
+				},
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "https://ast0072-pod.cisco.com:21113/api/fdm/v1/policy/accesspolicies/c78e66bc-cb57-43fe-bcbf-96b79b3475b3/accessrules",
+					"protocol": "https",
+					"host": [
+						"ast0072-pod",
+						"cisco",
+						"com"
+					],
+					"port": "21113",
+					"path": [
+						"api",
+						"fdm",
+						"v1",
+						"policy",
+						"accesspolicies",
+						"c78e66bc-cb57-43fe-bcbf-96b79b3475b3",
+						"accessrules"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "get network object",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{base_url}}/api/fdm/latest/object/networks",
+					"host": [
+						"{{base_url}}"
+					],
+					"path": [
+						"api",
+						"fdm",
+						"latest",
+						"object",
+						"networks"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "create host object",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"var data = pm.response.json()",
+							"pm.environment.set(\"devnet_host_id\", data.id);",
+							"pm.environment.set(\"devnet_host_type\", data.type)"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"name": "Content-Type",
+						"value": "application/json",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n  \"name\": \"developer.cisco.com\",\r\n  \"description\": \"DevNet website host\",\r\n  \"subType\": \"HOST\",\r\n  \"value\": \"143.204.158.50\",\r\n  \"type\": \"networkobject\"\r\n}"
+				},
+				"url": {
+					"raw": "{{base_url}}/object/networks",
+					"host": [
+						"{{base_url}}"
+					],
+					"path": [
+						"object",
+						"networks"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "post access rule",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"var data = pm.response.json()",
+							"pm.environment.set(\"devnet_accessrule_id\", data.id);",
+							"pm.environment.set(\"devnet_accessrule_ruleId\", data.ruleId);",
+							"pm.environment.set(\"devnet_accessrule_version\", data.version);",
+							""
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "{{access_token}}",
+							"type": "string"
+						}
+					]
+				},
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"name": "Content-Type",
+						"value": "application/json",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n  \"name\": \"Allow access to DevNet\",\r\n  \"destinationNetworks\":[{\r\n  \t\"id\": \"{{devnet_host_id}}\",\r\n  \t\"type\": \"{{devnet_host_type}}\"\r\n  }],\r\n  \"ruleId\": 0,\r\n  \"ruleAction\": \"PERMIT\",\r\n  \"type\": \"accessrule\"\r\n}"
+				},
+				"url": {
+					"raw": "{{base_url}}/policy/accesspolicies/{{access_policy_id}}/accessrules",
+					"host": [
+						"{{base_url}}"
+					],
+					"path": [
+						"policy",
+						"accesspolicies",
+						"{{access_policy_id}}",
+						"accessrules"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "get IPS policies",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"var data = pm.response.json()",
+							"pm.environment.set(\"first_intrusionpolicy_id\", data.items[0].id);",
+							"pm.environment.set(\"first_intrusionpolicy_type\", data.items[0].type);"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{base_url}}/policy/intrusionpolicies",
+					"host": [
+						"{{base_url}}"
+					],
+					"path": [
+						"policy",
+						"intrusionpolicies"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "toggle on threat license",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"name": "Content-Type",
+						"value": "application/json",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n  \"count\": 1,\r\n  \"licenseType\": \"THREAT\",\r\n  \"type\": \"license\"\r\n}"
+				},
+				"url": {
+					"raw": "{{base_url}}/license/smartlicenses",
+					"host": [
+						"{{base_url}}"
+					],
+					"path": [
+						"license",
+						"smartlicenses"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "update access rule with IPS",
+			"request": {
+				"method": "PUT",
+				"header": [
+					{
+						"key": "Content-Type",
+						"name": "Content-Type",
+						"value": "application/json",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"version\": \"{{devnet_accessrule_version}}\",\n    \"name\": \"Allow access to DevNet\",\n    \"ruleId\": {{devnet_accessrule_ruleId}},\n    \"sourceZones\": [],\n    \"destinationZones\": [],\n    \"sourceNetworks\": [],\n    \"destinationNetworks\": [\n        {\n            \"id\": \"{{devnet_host_id}}\",\n            \"type\": \"{{devnet_host_type}}\"\n        }\n    ],\n    \"ruleAction\": \"PERMIT\",\n    \"eventLogAction\": \"LOG_BOTH\",\n    \"intrusionPolicy\": {\n    \t\"id\": \"{{first_intrusionpolicy_id}}\",\n    \t\"type\": \"{{first_intrusionpolicy_type}}\"\n    },\n    \"id\": \"{{devnet_accessrule_id}}\",\n    \"type\": \"accessrule\"\n}"
+				},
+				"url": {
+					"raw": "{{base_url}}/policy/accesspolicies/{{access_policy_id}}/accessrules/{{devnet_accessrule_id}}",
+					"host": [
+						"{{base_url}}"
+					],
+					"path": [
+						"policy",
+						"accesspolicies",
+						"{{access_policy_id}}",
+						"accessrules",
+						"{{devnet_accessrule_id}}"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "delete access rule",
+			"request": {
+				"method": "DELETE",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": ""
+				},
+				"url": {
+					"raw": "{{base_url}}/policy/accesspolicies/{{access_policy_id}}/accessrules/{{devnet_accessrule_id}}",
+					"host": [
+						"{{base_url}}"
+					],
+					"path": [
+						"policy",
+						"accesspolicies",
+						"{{access_policy_id}}",
+						"accessrules",
+						"{{devnet_accessrule_id}}"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "delete host object",
+			"request": {
+				"method": "DELETE",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": ""
+				},
+				"url": {
+					"raw": "{{base_url}}/object/networks/{{devnet_host_id}}",
+					"host": [
+						"{{base_url}}"
+					],
+					"path": [
+						"object",
+						"networks",
+						"{{devnet_host_id}}"
+					]
+				}
+			},
+			"response": []
+		}
+	],
+	"event": [
+		{
+			"listen": "prerequest",
+			"script": {
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		},
+		{
+			"listen": "test",
+			"script": {
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		}
+	],
+	"variable": [
+		{
+			"key": "base_url",
+			"value": "https://198.18.133.8",
+			"type": "string"
+		}
+	]
+}
