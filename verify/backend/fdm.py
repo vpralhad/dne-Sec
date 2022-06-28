@@ -99,7 +99,7 @@ def verify() -> bool:
     
     try:
         if(len(fdm_login())):
-            print(green(f"Firepower FDM API is accessible...Note: FDM 90 day Eval License needs to enabled for full functionality..!!!\n"))
+            print(green(f"Firepower FDM API is accessible...\n"))
         else:
             print(red(f"Firepower FDM API is accessible, API credentials might be wrong"))
     except:
